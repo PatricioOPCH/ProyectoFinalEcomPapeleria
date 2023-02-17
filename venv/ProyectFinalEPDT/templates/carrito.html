@@ -1,0 +1,350 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carrito</title>
+    <link rel="icon" href= '{% static  "img/iconLog.png" %}' >
+
+    <!-- Google Fonts -->
+    <link href='http://fonts.googleapis.com/css?family=Titillium+Web:400,200,300,700,600' rel='stylesheet'
+        type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Roboto+Condensed:400,700,300' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Raleway:400,100' rel='stylesheet' type='text/css'>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href='{% static  "css/bootstrap.min.css" %}'>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href='{% static "css/font-awesome.min.css" %}'>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href='{% static "css/owl.carousel.css" %}'>
+    <link rel="stylesheet" href='{% static "css/style.css" %}'>
+    <link rel="stylesheet" href='{% static "css/responsive.css" %}'>
+</head>
+
+<body>
+
+    <div class="header-area">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="user-menu">
+                        <ul>
+                            <li><a href="#"><i class="fa fa-user"></i> Mi Cuenta</a></li>
+                            <li><a href="#"><i class="fa fa-heart"></i> Lista de Deseos</a></li>
+                            <li><a href=" {% url 'carrito' %} "><i class="fa fa-shopping-cart"></i> Mi Carrito</a></li>
+                            <li><a href=" {% url 'pagVerificar' %} "><i class="fa fa-cc-visa"></i> Pagos</a></li>
+
+                            <!-- Usuario valida -->
+                            {% if user.username %}
+                            <li class="dropdown">
+                                <span class="dropdown-toggle" data-toggle="dropdown"><i class=" fa fa-user "
+                                        data-toggle="dropdown"></i>
+                                    {{user.username | upper }}
+                                    <b class="caret"></b>
+                                </span>
+                                <ul class="dropdown-menu">
+                                    <li><a href="{% url 'logout' %}">Cerrar Sesión</a></li>
+                                    {% if user.username == 'admin' %}
+                                    <li><a href="{% url 'registrarProducto' %}">Registrar Producto</a></li>
+                                    <li><a href="{% url 'listadoProductos' %}">Listado de productos</a></li>
+                                    {% endif%}
+
+                                </ul>
+
+                            </li>
+                            {% else %}
+                            <li><a href="{% url 'login' %}"><i class="fa fa-user"></i> Iniciar Sesion</a></li>
+                            <li><a href="{% url 'registrar' %}"><i class="fa fa-user"></i> Registrarse</a></li>
+                            {% endif%}
+
+
+
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="header-right">
+                        <ul class="list-unstyled list-inline">
+                            <li class="dropdown dropdown-small">
+                                <a data-toggle="dropdown" data-hover="dropdown" class="dropdown-toggle" href="#"><span
+                                        class="key">Moneda : </span><span class="value"> USD </span><b
+                                        class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="#">USD</a></li>
+                                    <li><a href="#">INR</a></li>
+                                    <li><a href="#">GBP</a></li>
+                                </ul>
+                            </li>
+
+                            <li class="dropdown dropdown-small">
+                                <a data-toggle="dropdown" data-hover="dropdown" class="dropdown-toggle" href="#"><span
+                                        class="key">Lenguaje : </span><span class="value"> Español </span><b
+                                        class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="#">Español</a></li>
+                                    <li><a href="#">Ingles</a></li>
+                                    <li><a href="#">Frances</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> <!-- End header area -->
+
+    <div class="site-branding-area">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="logo">
+                        <h1><a href="./"><img src='{% static  "img/logoEPD.png" %}'></a></h1>
+                    </div>
+                </div>
+
+                <div class="col-sm-6">
+                    <div class="shopping-item">
+                        <a href=" {% url 'carrito' %} ">Carrito - <span class="cart-amunt">$ {{total_carrito}}</span> <i
+                                class="fa fa-shopping-cart"></i> <span class="product-count">{{total_items}}</span></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> <!-- End site branding area -->
+
+    <div class="mainmenu-area">
+        <div class="container">
+            <div class="row">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                </div>
+                <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                        <li><a href=" {% url 'pagPrincipal' %} ">Inicio</a></li>
+                        <li><a href=" {% url 'pagServicios' %} ">Servicios</a></li> <!-- Servicios -->
+                        <li class="active"><a href=" {% url 'carrito' %} ">carrito</a></li> <!-- Carrito -->
+                        <li><a href=" {% url 'pagVerificar' %} ">Pagos</a></li> <!-- Comprar -->
+                        <li><a href=" {% url 'pagPrincipal' %} ">Categoria</a></li>
+                        <li><a href=" {% url 'pagPrincipal' %} ">Otros</a></li>
+                        <li><a href=" {% url 'contactos' %} ">Contactos</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div> <!-- End mainmenu area -->
+
+    <div class="product-big-title-area">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="product-bit-title text-center">
+                        <h2>Carrito</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="promo-area">
+
+
+        <center>
+            <div class="alert alert-primary" role="alert">
+                <section class="cb" id="cb" style="max-width: 1000px; background-color: rgb(112, 185, 228); ">
+
+                    <table class="table table-bordered  " style=" float: center;">
+                        <thead>
+                            <tr style="color: white;">
+                                <th scope="row" colspan="4" class="text-center"><strong>CARRITO</strong></th>
+                            </tr>
+                            <tr style="color: white;">
+                                <th scope="col" class="text-center">ID</th>
+                                <th scope="col" class="text-center">NOMBRE</th>
+                                <th scope="col" class="text-center">PRECIO</th>
+                                <th scope="col" class="text-center">CANTIDAD</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% if request.session.carrito.items %}
+                            {% for key, value in request.session.carrito.items %}
+                            <tr class="bg-primary" style="color: white; text-align: center;">
+                                <td>{{value.producto_id}}</td>
+                                <td><strong>{{value.nombre}}</strong></td>
+                                <td>{{value.precio}}</td>
+                                <td class="table-active table-primary">{{value.cantidad}}
+                                    <a href="{% url 'Sum' value.producto_id %}"
+                                        class="badge btn btn-success badge-dark">+</a>
+                                    <a href="{% url 'Sub' value.producto_id %}"
+                                        class="badge btn btn-danger badge-dark">-</a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                            {% else %}
+                            <tr class="bg-danger">
+                                <td colspan="3">
+                                    <div class="alert alert-danger text-center"> Sin Productos </div>
+                                </td>
+                            </tr>
+                            {% endif %}
+                            <tr class="bg-success" style="color:teal;">
+                                <th colspan="2" scope="row" class="text-center">Total:</th>
+                                <td colspan="1" class="text-center"><strong>$ {{total_carrito}}</strong></td>
+                                <td class="text-center"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </section>
+                <hr>
+
+
+
+                <div style="max-height: 100px; padding: 10px;">
+                    <section class="cb" id="cb" style="max-width: 1000px; max-height: 100px; ">
+
+                        <a href="{% url 'CLS' %}" class="btn btn-danger btn-block" style="float: center;">Limpiar
+                        </a>
+
+                        <a href=" {% url 'pagPrincipal' %}" style="float: center;">
+                            <button style="float: center;" type="button" class="btn btn-success btn-block">Guardar
+                            </button>
+                        </a>
+                    </section>
+                </div>
+
+            </div>
+
+        </center>
+
+    </div>
+
+
+    <br>
+    <!-- Start Final area -->
+    <div class="footer-top-area">
+        <div class="zigzag-bottom"></div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3 col-sm-6">
+                    <div class="footer-about-us">
+                        <h2>E<span>PD</span></h2>
+                        <p>Editorial Pirámides Digital, es una imprenta dedicada a satisfacer las necesidades y brindar
+                            soluciones que se reflejan en la satisfacción de cada uno de nuestros clientes, el convertir
+                            las ideas de nuestros clientes en imagen, impresión digital y artículos promocionales; con
+                            calidad, costo atractivo, servicio personalizado y entrega a tiempo.</p>
+                        <div class="footer-social">
+                            <a href=" {% url 'pagPrincipal' %}" target="_blank"><i class="fa fa-facebook"></i></a>
+                            <a href=" {% url 'pagPrincipal' %}" target="_blank"><i class="fa fa-twitter"></i></a>
+                            <a href=" {% url 'pagPrincipal' %}" target="_blank"><i class="fa fa-youtube"></i></a>
+                            <a href=" {% url 'pagPrincipal' %}" target="_blank"><i class="fa fa-linkedin"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-3 col-sm-6">
+                    <div class="footer-menu">
+                        <h2 class="footer-wid-title">Navegación del usuario </h2>
+                        <ul>
+                            <li><a href=" {% url 'pagPrincipal' %} ">Mi cuenta</a></li>
+                            <li><a href=" {% url 'pagPrincipal' %}  ">Historial de pedidos</a></li>
+                            <li><a href=" {% url 'pagPrincipal' %} ">Lista de deseos</a></li>
+                            <li><a href=" {% url 'pagPrincipal' %} ">Contacto del proveedor</a></li>
+                            <li><a href=" {% url 'pagPrincipal' %} ">Inicio</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="col-md-3 col-sm-6">
+                    <div class="footer-menu">
+                        <h2 class="footer-wid-title">Categorías</h2>
+                        <ul>
+                            <li><a href=" {% url 'pagPrincipal' %} ">Afiches</a></li>
+                            <li><a href=" {% url 'pagPrincipal' %} ">Boletos</a></li>
+                            <li><a href=" {% url 'pagPrincipal' %} ">Revistas</a></li>
+                            <li><a href=" {% url 'pagPrincipal' %} ">Libros</a></li>
+                            <li><a href=" {% url 'pagPrincipal' %} ">Trípticos</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="col-md-3 col-sm-6">
+                    <div class="footer-newsletter">
+                        <h2 class="footer-wid-title">Boletin informativo</h2>
+                        <p>¡Suscríbase a nuestro boletín y obtenga ofertas exclusivas que no encontrará en ningún otro
+                            lugar directamente en su bandeja de entrada!</p>
+                        <div class="newsletter-form">
+                            <form action="#">
+                                <input type="email" placeholder="Escribe tu E-mail">
+                                <input type="submit" value="Suscribir">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> <!-- End footer top area -->
+
+    <div class="footer-bottom-area">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="copyright">
+                        <p>&copy; 2015 uCommerce. All Rights Reserved. <a href="http://www.freshdesignweb.com"
+                                target="_blank">freshDesignweb.com</a></p>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="footer-card-icon">
+                        <i class="fa fa-cc-discover"></i>
+                        <i class="fa fa-cc-mastercard"></i>
+                        <i class="fa fa-cc-paypal"></i>
+                        <i class="fa fa-cc-visa"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> <!-- End footer bottom area -->
+
+
+
+    <!-- Latest jQuery form server -->
+    <script src="https://code.jquery.com/jquery.min.js"></script>
+
+    <!-- Bootstrap JS form CDN -->
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+
+    <!-- jQuery sticky menu -->
+    <script src='{% static "js/owl.carousel.min.js" %}'></script>
+    <script src='{% static "js/jquery.sticky.js" %}'></script>
+
+    <!-- jQuery easing -->
+    <script src='{% static "js/jquery.easing.1.3.min.js" %}'></script>
+
+    <!-- Main Script -->
+    <script src='{% static "js/main.js" %}'></script>
+
+    <!-- Slider -->
+    <script type="text/javascript" src='{% static "js/bxslider.min.js" %}'></script>
+    <script type="text/javascript" src='{% static "js/script.slider.js" %}'></script>
+
+
+
+
+
+
+</body>
+
+</html>
